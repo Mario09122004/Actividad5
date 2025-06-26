@@ -8,6 +8,11 @@ import bcrypt from "bcryptjs";
 import { OAuth2Client } from 'google-auth-library';
 =======
 import jwt from 'jsonwebtoken';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 const JWT_SECRET = 'aqzwsxecd8645rftvgybuhij7946asdfghjklqwertyuiop1234567890';
 >>>>>>> 777110e498af18304fa0519d4d05a98b6bdc2e3b
@@ -31,6 +36,37 @@ const pool = mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
 });
+
+const mongoURI = process.env.MONGO_URI;
+  if (!mongoURI) {
+  console.error("❌ URI de MongoDB no definida. Verifica tu archivo .env");
+  process.exit(1);
+}
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  }).then(() => {
+    console.log("✅ MongoDB conectado");
+  }).catch(err => {
+    console.error("❌ Error conectando a MongoDB:", err);
+  });
+  mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }).then(() => {
+    console.log("MongoDB conectado");
+  }).catch(err => {
+    console.error("Error conectando a MongoDB:", err);
+});
+
+const mensajeSchema = new mongoose.Schema({
+  emisor: { type: String, required: true },    // matrícula del emisor
+  receptor: { type: String, required: true },  // matrícula del receptor
+  mensaje: { type: String, required: true },   // contenido del mensaje
+  fecha: { type: Date, default: Date.now }     // fecha automática
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -404,6 +440,49 @@ app.post('/api/auth/google-login', async (req, res) => {
     return res.status(200).json({ success: true, message: 'Inicio de sesión con Google exitoso', matricula });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Error al verificar el token de Google', error: err.message });
+  }
+});
+
+  app.post('/mensajes/enviar', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ success: false, message: "Token no proporcionado" });
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, JWT_SECRET);
+    // decoded should have a 'matricula' property if the token was signed as such
+
+    const emisor = decoded.matricula;
+    const { receptor, mensaje } = req.body;
+
+    if (!receptor || !mensaje) {
+      return res.status(400).json({ success: false, message: "Receptor y mensaje requeridos" });
+    }
+
+    const nuevoMensaje = new Mensaje({
+      emisor,
+      receptor,
+      mensaje
+    });
+
+    await nuevoMensaje.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Mensaje guardado correctamente",
+      data: nuevoMensaje
+    });
+
+  } catch (error) {
+    console.error("Error al enviar mensaje:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error interno al enviar mensaje",
+      error: error.message
+    });
   }
 });
 
