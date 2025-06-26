@@ -3,9 +3,12 @@ import { Button, Form, Input, Card, Typography, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import React, { useRef, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 //import { useAuth } from './../auth/AuthContex'
 
 const { Title } = Typography;
+
+const CLIENT_ID = "656169630035-1s360encavdbr859j38ndt73s8trm6j0.apps.googleusercontent.com"; // Reemplaza con tu client ID
 
 function Login(){
     
@@ -53,7 +56,30 @@ function Login(){
     }
     };
 
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    const token = credentialResponse.credential;
+    const res = await fetch('http://localhost:5000/api/auth/google-login', {
+      method: 'POST',
+      headers: { 'Content-Type': "application/json" },
+      body: JSON.stringify({ token })
+    });
+    const data = await res.json();
+    if (data.success) {
+      // localStorage.setItem('token', data.token); // Si usas JWT
+      // Guarda la matrícula si la necesitas
+      // localStorage.setItem('matricula', data.matricula);
+      window.location.href = '/'; // O usa navigate si tienes react-router
+    } else {
+      alert(data.message || 'Error al iniciar sesión con Google');
+    }
+  };
+
+  const handleGoogleFailure = () => {
+    alert('Error al iniciar sesión con Google');
+  };
+
   return (
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Col xs={22} sm={16} md={12} lg={8}>
         <Card>
@@ -93,9 +119,14 @@ function Login(){
               </Button>
             </Form.Item>
           </Form>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleFailure}
+          />
         </Card>
       </Col>
     </Row>
+    </GoogleOAuthProvider>
   );
 };
 
