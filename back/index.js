@@ -58,25 +58,7 @@ const mensajeSchema = new mongoose.Schema({
   fecha: { type: Date, default: Date.now }     // fecha automática
 });
 
-
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  }).then(() => {
-    console.log("✅ MongoDB conectado");
-  }).catch(err => {
-    console.error("❌ Error conectando a MongoDB:", err);
-  });
-  mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }).then(() => {
-    console.log("MongoDB conectado");
-  }).catch(err => {
-    console.error("Error conectando a MongoDB:", err);
-});
-
-
+const Mensaje = mongoose.model("Mensaje", mensajeSchema);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -453,83 +435,7 @@ app.post('/api/auth/google-login', async (req, res) => {
   }
 });
 
-  app.post('/mensajes/enviar', async (req, res) => {
-  try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ success: false, message: "Token no proporcionado" });
-    }
-
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
-    // decoded should have a 'matricula' property if the token was signed as such
-
-    const emisor = decoded.matricula;
-    const { receptor, mensaje } = req.body;
-
-    if (!receptor || !mensaje) {
-      return res.status(400).json({ success: false, message: "Receptor y mensaje requeridos" });
-    }
-
-    const nuevoMensaje = new Mensaje({
-      emisor,
-      receptor,
-      mensaje
-    });
-
-    await nuevoMensaje.save();
-
-    return res.status(200).json({
-      success: true,
-      message: "Mensaje guardado correctamente",
-      data: nuevoMensaje
-    });
-
-  } catch (error) {
-    console.error("Error al enviar mensaje:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Error interno al enviar mensaje",
-      error: error.message
-    });
-  }
-});
-
-
-app.post('/api/auth/google-login', async (req, res) => {
-  const { token } = req.body;
-  if (!token) {
-    return res.status(400).json({ success: false, message: 'Token no proporcionado' });
-  }
-
-  try {
-    const client = new OAuth2Client(GOOGLE_CLIENT_ID);
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    const email = payload.email;
-
-    if (!email.endsWith('@utd.edu.mx')) {
-      return res.status(403).json({ success: false, message: 'Solo se permite acceso con correo institucional' });
-    }
-
-    const match = email.match(/_(\w+)@utd\.edu\.mx$/);
-    const matricula = match ? match[1] : null;
-    if (!matricula) {
-      return res.status(400).json({ success: false, message: 'No se pudo extraer la matrícula del correo' });
-    }
-
-    // Aquí busca la matrícula en tu base de datos y responde según corresponda
-    return res.status(200).json({ success: true, message: 'Inicio de sesión con Google exitoso', matricula });
-  } catch (err) {
-    return res.status(500).json({ success: false, message: 'Error al verificar el token de Google', error: err.message });
-  }
-});
-
-  app.post('/mensajes/enviar', async (req, res) => {
+app.post('/mensajes/enviar', async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
 
