@@ -3,6 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import fetch from "node-fetch";
+import bcrypt from "bcryptjs";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -82,7 +83,7 @@ app.get('/alumnos', (req, res) => {
   });
 });
 
-app.post('/alumnos/agregar', (req, res) => {
+app.post('/alumnos/agregar',async (req, res) => {
   const {
     matricula,
     nombre,
@@ -113,6 +114,10 @@ app.post('/alumnos/agregar', (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
+  // Hash the password before storing it
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(Contraseña, salt);
+
   pool.query(sql, [
     matricula,
     APaterno,
@@ -124,7 +129,7 @@ app.post('/alumnos/agregar', (req, res) => {
     PerfilFacebook,
     Instagram,
     TipoSangre,
-    Contraseña,
+    hashedPassword,
     dCalle,
     Numero,
     Colonia,
@@ -287,7 +292,7 @@ app.get('/alumno/traer/:nombre', (req, res) => {
 app.post('/api/auth/login-user', async (req, res) => {
   const { correo, password, captcha } = req.body;
 
-  console.log(`Checando captcha: ${captcha}`);
+  console.log(`Verificando CAPTCHA...`);
 
   if (!captcha) {
     return res.status(400).json({ success: false, message: 'Captcha no enviado' });
@@ -305,11 +310,57 @@ app.post('/api/auth/login-user', async (req, res) => {
       return res.status(403).json({ success: false, message: 'Verificación del CAPTCHA fallida' });
     }
 
-    // Simulación de validación de usuario
-    console.log('Valido el capcha correctamente');
+    console.log('Captcha verificado correctamente.');
+
+    const sql = 'SELECT * FROM alumnos WHERE aCorreo = ?';
+
+    pool.query(sql, [correo], async (error, results) => {
+      if (error) {
+        console.error('Error en la consulta de login:', error);
+        return res.status(500).json({
+          success: false,
+          message: 'Error al consultar usuario',
+          error
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(401).json({
+          success: false,
+          message: 'Correo o contraseña incorrectos'
+        });
+      }
+
+      const usuario = results[0];
+
+      // Comparar contraseñas con bcrypt
+      const match = await bcrypt.compare(password, usuario.contrasenha);
+
+      if (!match) {
+        return res.status(401).json({
+          success: false,
+          message: 'Correo o contraseña incorrectos'
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Inicio de sesión exitoso',
+        usuario: {
+          matricula: usuario.matricula,
+          nombre: usuario.nombre,
+          correo: usuario.aCorreo
+        }
+      });
+    });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: 'Error en la verificación del captcha' });
+    console.error('Error en la verificación del captcha:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Error en la verificación del captcha',
+      error: err.message
+    });
   }
 });
 
