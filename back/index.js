@@ -496,7 +496,6 @@ app.post('/api/auth/google-login', async (req, res) => {
   }
 });
 
-const GOOGLE_CLIENT_ID = "656169630035-1s360encavdbr859j38ndt73s8trm6j0.apps.googleusercontent.com"; // Reemplaza con tu client ID
 
 app.post('/api/auth/google-login', async (req, res) => {
   const { token } = req.body;
