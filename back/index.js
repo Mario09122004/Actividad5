@@ -2,6 +2,7 @@ import mysql from "mysql2";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import fetch from "node-fetch";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -283,6 +284,34 @@ app.get('/alumno/traer/:nombre', (req, res) => {
   });
 });
 
+app.post('/api/auth/login-user', async (req, res) => {
+  const { correo, password, captcha } = req.body;
+
+  console.log(`Checando captcha: ${captcha}`);
+
+  if (!captcha) {
+    return res.status(400).json({ success: false, message: 'Captcha no enviado' });
+  }
+
+  const secretKey = '6LcdkW0rAAAAAK8ikxGKphBteU9IVDP2MIep2hC8';
+  const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+
+  try {
+    const captchaRes = await fetch(verifyURL, { method: 'POST' });
+    const captchaData = await captchaRes.json();
+
+    if (!captchaData.success) {
+      console.error('Captcha verification failed:', captchaData['error-codes']);
+      return res.status(403).json({ success: false, message: 'Verificación del CAPTCHA fallida' });
+    }
+
+    // Simulación de validación de usuario
+    console.log('Valido el capcha correctamente');
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error en la verificación del captcha' });
+  }
+});
 
 app.all('/*splat', (req, res) => {
     res.send('Route not found');

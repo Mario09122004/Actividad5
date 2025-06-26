@@ -15,28 +15,43 @@ function Login(){
   const recaptchaRef = useRef(null);
   const [captchaValue, setCaptchaValue] = useState(null);
 
-  const handlerSubmit = async () =>{
-    try{
-        console.log('Form data: ', formData);
-        /*
-      const values=formData.getFieldsValue();
-      const responce = await fetch('http://localhost:3000/api/auth/login-user',{
-        method:'POST',
-        headers:{'Content-Type':"application/json"},
-        body: JSON.stringify(values)
-      })
+  const handlerSubmit = async () => {
+  try {
+    const values = formData.getFieldsValue();
 
-      const data = await responce.json();
-      console.log(data);
-      login(data.accessToken);
-      navigate('/');
-      formData.resetFields();
-      */
-
-    } catch (error){
-      console.log('Error ocurrido en el login: ', error)
+    if (!captchaValue) {
+      alert("Por favor completa el CAPTCHA.");
+      return;
     }
-  }
+
+    const response = await fetch('http://localhost:5000/api/auth/login-user', {
+        method: 'POST',
+        headers: { 'Content-Type': "application/json" },
+        body: JSON.stringify({
+            ...values,
+            captcha: captchaValue
+        })
+        });
+        recaptchaRef.current.reset();
+
+        const data = await response.json();
+        console.log('Respuesta del servidor: ', data);
+
+        if (data.success) {
+        // login(data.accessToken); // si usas autenticación con tokens
+        navigate('/');
+        formData.resetFields();
+        
+        } else {
+          alert(data.message || 'Inicio de sesión fallido');
+          formData.resetFields();
+        }
+
+    } catch (error) {
+        console.log('Error ocurrido en el login: ', error);
+        alert("Error al iniciar sesión");
+    }
+    };
 
   return (
     <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
@@ -67,7 +82,7 @@ function Login(){
             <div style={{ marginBottom: 16 }}>
               <ReCAPTCHA
                 ref={recaptchaRef}
-                sitekey="TU_SITE_KEY_AQUI"
+                sitekey="6LcdkW0rAAAAACKXMGebmpFcrhhcmlBpup9AxEwD"
                 onChange={(value) => setCaptchaValue(value)}
               />
             </div>
