@@ -4,26 +4,31 @@ import React from "react";
 import Swal from 'sweetalert2';
 import axios from "axios";
 
-type alumnoMensaje = {
-    matricula: string;
-    nombre?: string;
+// Tipos de datos
+type mensajeData = {
+    emisor: string;     // quien envía
+    receptor: string;   // quien recibe
     mensaje: string;
-}
+};
 
-const initialState: alumnoMensaje = {
-    matricula: "",
-    nombre: "",
+type Props = {
+    matriculaUsuario: string; // matrícula del usuario actual (emisor)
+};
+
+const initialState: mensajeData = {
+    emisor: "",
+    receptor: "",
     mensaje: ""
-}
+};
 
-function EnviarMensaje() {
-    const [alumno, setAlumno] = useState<alumnoMensaje>(initialState);
+function EnviarMensaje({ matriculaUsuario }: Props) {
+    const [mensaje, setMensaje] = useState<mensajeData>({ ...initialState, emisor: matriculaUsuario });
     const [buscarMatricula, setBuscarMatricula] = useState("");
-    const [nombreEncontrado, setNombreEncontrado] = useState<string | null>(null);
+    const [nombreReceptor, setNombreReceptor] = useState<string | null>(null);
 
     const handleBuscarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBuscarMatricula(e.target.value);
-    }
+    };
 
     const buscarAlumno = async () => {
         if (buscarMatricula.trim() === "") {
@@ -35,63 +40,65 @@ function EnviarMensaje() {
             const response = await axios.get(`http://localhost:5000/alumnos/${buscarMatricula}`);
             if (response.data && response.data.results && response.data.results.length > 0) {
                 const datos = response.data.results[0];
-                setAlumno({
-                    matricula: datos.matricula,
-                    nombre: datos.nombre,
-                    mensaje: ""
+                setMensaje({
+                    ...mensaje,
+                    receptor: datos.matricula,
+                    mensaje: "", // opcional, limpia el mensaje al cambiar de receptor
                 });
-                setNombreEncontrado(datos.nombre);
+                setNombreReceptor(datos.nombre);
             } else {
-                setAlumno(initialState);
-                setNombreEncontrado(null);
+                setMensaje({ ...mensaje, receptor: "", mensaje: "" });
+                setNombreReceptor(null);
                 Swal.fire("No encontrado", "No se encontró ningún alumno con esa matrícula", "error");
             }
         } catch (error) {
-            setAlumno(initialState);
-            setNombreEncontrado(null);
-            Swal.fire("Error", "No se pudo encontrar el alumno", "error");
+            setMensaje({ ...mensaje, receptor: "", mensaje: "" });
+            setNombreReceptor(null);
+            Swal.fire("Error", "No se pudo buscar el alumno", "error");
             console.error(error);
         }
-    }
+    };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { name, value } = event.target;
-        setAlumno({ ...alumno, [name]: value });
-    }
+        setMensaje({ ...mensaje, [name]: value });
+    };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!alumno.mensaje.trim()) {
+        if (!mensaje.receptor) {
+            Swal.fire("Falta receptor", "Busca primero a quién enviarás el mensaje", "warning");
+            return;
+        }
+
+        if (!mensaje.mensaje.trim()) {
             Swal.fire("Campo vacío", "Por favor escribe un mensaje", "warning");
             return;
         }
 
         try {
-            // Puedes ajustar la ruta y datos del body según tu backend
-            await axios.post(`http://localhost:5000/alumnos/mensaje/${alumno.matricula}`, {
-                mensaje: alumno.mensaje
-            });
+            await axios.post(`http://localhost:5000/mensajes/enviar`, mensaje);
             Swal.fire("Enviado", "Mensaje enviado correctamente", "success");
-            setAlumno(initialState);
+            setMensaje({ ...initialState, emisor: matriculaUsuario });
             setBuscarMatricula("");
-            setNombreEncontrado(null);
+            setNombreReceptor(null);
         } catch (error) {
             Swal.fire("Error", "No se pudo enviar el mensaje", "error");
             console.error(error);
         }
-    }
+    };
 
     return (
         <Container fluid>
-            <h1>Enviar Mensaje a Alumno</h1>
+            <h1>Enviar Mensaje</h1>
 
-            {/* Buscador de matrícula */}
+            {/* Buscar receptor */}
             <Row className="mb-4">
                 <Col md={{ span: 6, offset: 3 }}>
                     <InputGroup>
                         <FormControl
-                            placeholder="Buscar matrícula"
+                            placeholder="Matrícula del receptor"
                             value={buscarMatricula}
                             onChange={handleBuscarChange}
                         />
@@ -102,23 +109,19 @@ function EnviarMensaje() {
                 </Col>
             </Row>
 
-            {/* Resultado de la búsqueda */}
-            {nombreEncontrado !== null && (
+            {/* Nombre del receptor */}
+            {nombreReceptor !== null && (
                 <Row className="mb-3">
                     <Col md={{ span: 6, offset: 3 }} className="text-center">
                         <h5>
-                            {nombreEncontrado ? (
-                                <>Alumno: <strong>{nombreEncontrado}</strong></>
-                            ) : (
-                                <span className="text-danger">Alumno no encontrado</span>
-                            )}
+                            Alumno: <strong>{nombreReceptor}</strong>
                         </h5>
                     </Col>
                 </Row>
             )}
 
-            {/* Formulario para mensaje */}
-            {alumno.matricula && (
+            {/* Formulario de mensaje */}
+            {mensaje.receptor && (
                 <Form onSubmit={handleSubmit}>
                     <Row className="mb-3">
                         <Col md={{ span: 6, offset: 3 }}>
@@ -127,7 +130,7 @@ function EnviarMensaje() {
                                     as="textarea"
                                     name="mensaje"
                                     style={{ height: '150px' }}
-                                    value={alumno.mensaje}
+                                    value={mensaje.mensaje}
                                     onChange={handleInputChange}
                                 />
                             </FloatingLabel>
@@ -146,4 +149,3 @@ function EnviarMensaje() {
 }
 
 export default EnviarMensaje;
-// 

@@ -4,7 +4,13 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import fetch from "node-fetch";
 import bcrypt from "bcryptjs";
+<<<<<<< HEAD
 import { OAuth2Client } from 'google-auth-library';
+=======
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET = 'aqzwsxecd8645rftvgybuhij7946asdfghjklqwertyuiop1234567890';
+>>>>>>> 777110e498af18304fa0519d4d05a98b6bdc2e3b
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -293,8 +299,6 @@ app.get('/alumno/traer/:nombre', (req, res) => {
 app.post('/api/auth/login-user', async (req, res) => {
   const { correo, password, captcha } = req.body;
 
-  console.log(`Verificando CAPTCHA...`);
-
   if (!captcha) {
     return res.status(400).json({ success: false, message: 'Captcha no enviado' });
   }
@@ -310,8 +314,6 @@ app.post('/api/auth/login-user', async (req, res) => {
       console.error('Captcha verification failed:', captchaData['error-codes']);
       return res.status(403).json({ success: false, message: 'Verificación del CAPTCHA fallida' });
     }
-
-    console.log('Captcha verificado correctamente.');
 
     const sql = 'SELECT * FROM alumnos WHERE aCorreo = ?';
 
@@ -333,8 +335,6 @@ app.post('/api/auth/login-user', async (req, res) => {
       }
 
       const usuario = results[0];
-
-      // Comparar contraseñas con bcrypt
       const match = await bcrypt.compare(password, usuario.contrasenha);
 
       if (!match) {
@@ -344,9 +344,17 @@ app.post('/api/auth/login-user', async (req, res) => {
         });
       }
 
+      // ✅ Generar JWT con la matrícula
+      const token = jwt.sign(
+        { matricula: usuario.matricula }, // Payload
+        JWT_SECRET, // Clave secreta
+        { expiresIn: '2h' } // Duración del token
+      );
+
       return res.status(200).json({
         success: true,
         message: 'Inicio de sesión exitoso',
+        token, // 🔑 Aquí va el JWT
         usuario: {
           matricula: usuario.matricula,
           nombre: usuario.nombre,
