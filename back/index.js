@@ -11,11 +11,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-dotenv.config();
-
 
 const JWT_SECRET = 'aqzwsxecd8645rftvgybuhij7946asdfghjklqwertyuiop1234567890';
 
@@ -54,14 +49,7 @@ mongoose.connect(mongoURI, {
   }).catch(err => {
     console.error("❌ Error conectando a MongoDB:", err);
   });
-  mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }).then(() => {
-    console.log("MongoDB conectado");
-  }).catch(err => {
-    console.error("Error conectando a MongoDB:", err);
-});
+
 
 const mensajeSchema = new mongoose.Schema({
   emisor: { type: String, required: true },    // matrícula del emisor
@@ -70,12 +58,6 @@ const mensajeSchema = new mongoose.Schema({
   fecha: { type: Date, default: Date.now }     // fecha automática
 });
 
-
-const mongoURI = process.env.MONGO_URI;
-  if (!mongoURI) {
-  console.error("❌ URI de MongoDB no definida. Verifica tu archivo .env");
-  process.exit(1);
-}
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
@@ -94,12 +76,6 @@ mongoose.connect(mongoURI, {
     console.error("Error conectando a MongoDB:", err);
 });
 
-const mensajeSchema = new mongoose.Schema({
-  emisor: { type: String, required: true },    // matrícula del emisor
-  receptor: { type: String, required: true },  // matrícula del receptor
-  mensaje: { type: String, required: true },   // contenido del mensaje
-  fecha: { type: Date, default: Date.now }     // fecha automática
-});
 
 
 app.listen(port, () => {
