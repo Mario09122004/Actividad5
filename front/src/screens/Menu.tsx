@@ -1,3 +1,4 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -23,6 +24,9 @@ function Menu(){
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/alumnos/consultar">
                         Consultar
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/alumnos/enviar-mensaje">
+                        Enviar Mensaje
                     </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
