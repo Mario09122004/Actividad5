@@ -60,13 +60,20 @@ const AlumnosList: React.FC = () => {
     <div style={{
       maxWidth: 900,
       margin: '40px auto',
-      padding: 20,
+      padding: 32,
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: '#f9f9f9',
-      borderRadius: 8,
-      boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
+      background: "linear-gradient(135deg, #fff 80%, #e74c3c11 100%)",
+      borderRadius: 16,
+      boxShadow: '0 8px 32px rgba(44,62,80,0.12)',
+      border: "1.5px solid #1a73e8"
     }}>
-      <h2 style={{ color: '#333', marginBottom: 20 }}>Lista de Alumnos</h2>
+      <h2 style={{
+        color: '#1a73e8',
+        marginBottom: 24,
+        fontWeight: 700,
+        textAlign: "center",
+        letterSpacing: 1
+      }}>Lista de Alumnos</h2>
 
       <div style={{
         marginBottom: 25,
@@ -81,33 +88,35 @@ const AlumnosList: React.FC = () => {
           value={search}
           onChange={e => setSearch(e.target.value)}
           style={{
-            padding: 10,
+            padding: 12,
             flexGrow: 1,
-            borderRadius: 5,
-            border: '1px solid #ccc',
+            borderRadius: 8,
+            border: '1.5px solid #e74c3c',
             fontSize: 16,
-            outlineColor: '#4a90e2',
+            outline: "none",
             transition: 'border-color 0.3s',
+            background: "#fff"
           }}
-          onFocus={e => e.currentTarget.style.borderColor = '#4a90e2'}
-          onBlur={e => e.currentTarget.style.borderColor = '#ccc'}
+          onFocus={e => e.currentTarget.style.borderColor = '#1a73e8'}
+          onBlur={e => e.currentTarget.style.borderColor = '#e74c3c'}
         />
 
         <select
           value={carrera}
           onChange={e => setCarrera(e.target.value)}
           style={{
-            padding: 10,
-            borderRadius: 5,
-            border: '1px solid #ccc',
+            padding: 12,
+            borderRadius: 8,
+            border: '1.5px solid #e74c3c',
             fontSize: 16,
             minWidth: 160,
-            outlineColor: '#4a90e2',
+            outline: "none",
             cursor: 'pointer',
             transition: 'border-color 0.3s',
+            background: "#fff"
           }}
-          onFocus={e => e.currentTarget.style.borderColor = '#4a90e2'}
-          onBlur={e => e.currentTarget.style.borderColor = '#ccc'}
+          onFocus={e => e.currentTarget.style.borderColor = '#1a73e8'}
+          onBlur={e => e.currentTarget.style.borderColor = '#e74c3c'}
         >
           <option value="">Todas las carreras</option>
           <option value="Sistemas">Sistemas</option>
@@ -120,17 +129,18 @@ const AlumnosList: React.FC = () => {
           value={semestre}
           onChange={e => setSemestre(e.target.value)}
           style={{
-            padding: 10,
-            borderRadius: 5,
-            border: '1px solid #ccc',
+            padding: 12,
+            borderRadius: 8,
+            border: '1.5px solid #e74c3c',
             fontSize: 16,
             minWidth: 140,
-            outlineColor: '#4a90e2',
+            outline: "none",
             cursor: 'pointer',
             transition: 'border-color 0.3s',
+            background: "#fff"
           }}
-          onFocus={e => e.currentTarget.style.borderColor = '#4a90e2'}
-          onBlur={e => e.currentTarget.style.borderColor = '#ccc'}
+          onFocus={e => e.currentTarget.style.borderColor = '#1a73e8'}
+          onBlur={e => e.currentTarget.style.borderColor = '#e74c3c'}
         >
           <option value="">Todos los semestres</option>
           {[...Array(9)].map((_, i) => (
@@ -139,7 +149,7 @@ const AlumnosList: React.FC = () => {
         </select>
       </div>
 
-      {error && <p style={{ color: 'red', fontWeight: '600' }}>{error}</p>}
+      {error && <p style={{ color: '#e74c3c', fontWeight: '600' }}>{error}</p>}
 
       {loading ? (
         <p style={{ fontSize: 18, color: '#666' }}>Cargando...</p>
@@ -147,10 +157,10 @@ const AlumnosList: React.FC = () => {
         <div style={{
           maxHeight: 450,
           overflowY: 'auto',
-          borderRadius: 6,
-          border: '1px solid #ddd',
-          backgroundColor: '#fff',
-          boxShadow: 'inset 0 1px 4px rgb(0 0 0 / 0.1)',
+          borderRadius: 8,
+          border: '1.5px solid #1a73e8',
+          background: '#fff',
+          boxShadow: 'inset 0 1px 4px rgb(44 62 80 / 0.08)',
           padding: 10
         }}>
           {alumnos.length === 0 ? (
@@ -163,7 +173,7 @@ const AlumnosList: React.FC = () => {
                 <li
                   key={a._id}
                   style={{
-                    padding: '12px 15px',
+                    padding: '14px 18px',
                     borderBottom: '1px solid #eee',
                     display: 'flex',
                     flexDirection: 'column',

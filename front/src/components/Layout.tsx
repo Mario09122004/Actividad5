@@ -1,6 +1,17 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { MdDashboard, MdPeople, MdMessage, MdPersonAdd, MdEdit, MdDelete, MdList, MdLogout, MdMenu } from "react-icons/md";
+
+const menuItems = [
+  { to: "/dashboard", label: "Dashboard", icon: <MdDashboard /> },
+  { to: "/alumnos", label: "Alumnos", icon: <MdPeople /> },
+  { to: "/mensajes", label: "Mensajes", icon: <MdMessage /> },
+  { to: "/registrarAlumno", label: "Registrar alumno", icon: <MdPersonAdd /> },
+  { to: "/modificarAlumno", label: "Modificar alumno", icon: <MdEdit /> },
+  { to: "/eliminarAlumno", label: "Eliminar alumno", icon: <MdDelete /> },
+  { to: "/mostrarAlumno", label: "Mostrar alumnos", icon: <MdList /> },
+];
 
 const Layout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,21 +28,24 @@ const Layout = () => {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "sans-serif" }}>
+    <div style={{ display: "flex", minHeight: "100vh", fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }}>
       {/* Sidebar */}
       <nav
         style={{
-          position: "fixed",//A
-          zIndex: 1000,//A
-          top: 0, //A
-          bottom: 0, //A
-          width: menuOpen ? 200 : 60,
-          backgroundColor: "#2c3e50",
+          position: "fixed",
+          zIndex: 1000,
+          top: 0,
+          bottom: 0,
+          width: menuOpen ? 220 : 64,
+          background: 'linear-gradient(135deg, #1a73e8 80%, #e74c3c 100%)',
           color: "#fff",
           transition: "width 0.3s",
           overflow: "hidden",
-          boxShadow: menuOpen ? "2px 0 5px rgba(0,0,0,0.1)" : "none",
-          borderRadius: menuOpen ? "0 8px 8px 0" : "0",
+          boxShadow: "2px 0 16px rgba(44,62,80,0.10)",
+          borderRight: "3px solid #e74c3c",
+          borderRadius: menuOpen ? "0 14px 14px 0" : "0",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {/* Botón Toggle */}
@@ -44,55 +58,54 @@ const Layout = () => {
             padding: 15,
             width: "100%",
             cursor: "pointer",
-            fontSize: 22,
+            fontSize: 28,
             textAlign: menuOpen ? "left" : "center",
             userSelect: "none",
             outline: "none",
+            marginBottom: 10,
           }}
           aria-label="Toggle menu"
           title={menuOpen ? "Cerrar menú" : "Abrir menú"}
         >
-          ☰
+          <MdMenu />
         </button>
 
         <ul
           style={{
             listStyle: "none",
             padding: 0,
-            marginTop: 20,
+            marginTop: 24,
             display: "flex",
             flexDirection: "column",
-            gap: "10px",
+            gap: "14px",
+            flexGrow: 1,
           }}
         >
-          {[
-            { to: "/dashboard", label: "Dashboard", icon: "🏠" },
-            { to: "/alumnos", label: "Alumnos", icon: "👥" },
-            { to: "/mensajes", label: "Mensajes", icon: "✉️" },
-            { to: "/registrarAlumno", label: "Registrar alumno", icon: "🧑‍🎓" },
-            { to: "/modificarAlumno", label: "Modificar alumno", icon: "🧑‍🎓" },
-            { to: "/eliminarAlumno", label: "Eliminar alumno", icon: "🧑‍🎓" },
-            { to: "/mostrarAlumno", label: "Mostrar alumnos", icon: "🧑‍🎓" },
-          ].map((item) => (
+          {menuItems.map((item) => (
             <li key={item.to}>
               <Link
                 to={item.to}
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  padding: "12px 20px",
+                  padding: "14px 24px",
                   color: "white",
                   textDecoration: "none",
                   background: location.pathname.startsWith(item.to)
-                    ? "#34495e"
+                    ? "linear-gradient(90deg, #e74c3c 60%, #1a73e8 100%)"
                     : "transparent",
-                  borderRadius: 6,
-                  gap: menuOpen ? 10 : 0,
+                  borderRadius: 8,
+                  gap: menuOpen ? 16 : 0,
                   justifyContent: menuOpen ? "flex-start" : "center",
+                  fontWeight: 600,
+                  fontSize: 18,
                   transition: "background 0.2s",
+                  boxShadow: location.pathname.startsWith(item.to)
+                    ? "0 2px 8px #e74c3c22"
+                    : "none",
                 }}
               >
-                <span style={{ fontSize: 20 }}>{item.icon}</span>
+                <span style={{ fontSize: 26 }}>{item.icon}</span>
                 {menuOpen && <span>{item.label}</span>}
               </Link>
             </li>
@@ -104,31 +117,42 @@ const Layout = () => {
           <button
             onClick={handleLogout}
             style={{
-              marginTop: "auto",
-              marginBottom: 20,
-              marginLeft: 20,
-              padding: "10px 15px",
-              backgroundColor: "#e74c3c",
+              marginBottom: 28,
+              marginLeft: 24,
+              padding: "12px 24px",
+              background: 'linear-gradient(90deg, #e74c3c 60%, #1a73e8 100%)',
               color: "white",
               border: "none",
-              borderRadius: 6,
+              borderRadius: 8,
               cursor: "pointer",
               fontWeight: "bold",
-              width: "calc(100% - 40px)",
+              width: "calc(100% - 18px)",
               userSelect: "none",
-              transition: "background-color 0.3s",
+              fontSize: 18,
+              boxShadow: '0 2px 8px #e74c3c22',
+              transition: "background 0.3s",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              justifyContent: "center",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c0392b")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#e74c3c")}
+            onMouseEnter={e => (e.currentTarget.style.background = '#c0392b')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'linear-gradient(90deg, #e74c3c 60%, #1a73e8 100%)')}
           >
+            <MdLogout style={{ fontSize: 20 }} />
             Cerrar sesión
           </button>
         )}
       </nav>
 
       {/* Main content */}
-      <main style={{ marginLeft: menuOpen ? 200 : 60, //A
-        flexGrow: 1, padding: 24, backgroundColor: "#f4f6f8" }}>
+      <main style={{
+        marginLeft: menuOpen ? 200 : 60,
+        flexGrow: 1,
+        padding: 24,
+        backgroundColor: "#f4f6f8",
+        transition: "margin-left 0.3s"
+      }}>
         {/* Breadcrumbs */}
         <nav
           aria-label="breadcrumb"
@@ -180,9 +204,9 @@ const Layout = () => {
         <div
           style={{
             backgroundColor: "white",
-            borderRadius: 8,
-            padding: 20,
-            boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
+            borderRadius: 12,
+            padding: 28,
+            boxShadow: "0 2px 12px rgba(231,76,60,0.08)",
             minHeight: "80vh",
           }}
         >

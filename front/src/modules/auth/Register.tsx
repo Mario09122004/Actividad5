@@ -58,16 +58,25 @@ const Register = () => {
 
   return (
     <div style={{
-      maxWidth: 400,
+      maxWidth: 420,
       margin: '60px auto',
-      padding: 20,
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      borderRadius: 8,
-      boxShadow: '0 6px 20px rgba(0,0,0,0.1)',
-      backgroundColor: '#fff',
-      color: '#333',
+      padding: 32,
+      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+      borderRadius: 14,
+      boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+      background: 'linear-gradient(135deg, #fff 70%, #1a73e822 100%)',
+      color: '#222',
+      border: '1.5px solid #1a73e8',
     }}>
-      <h2 style={{ marginBottom: 25, textAlign: 'center', color: '#1a73e8' }}>Registro de Alumno</h2>
+      <h2 style={{
+        marginBottom: 28,
+        textAlign: 'center',
+        color: '#1a73e8',
+        fontWeight: 700,
+        letterSpacing: 1,
+        fontSize: 28,
+        textShadow: '0 2px 8px #1a73e822'
+      }}>Registro de Alumno</h2>
       <form onSubmit={formik.handleSubmit}>
         <input
           type="text"
@@ -163,15 +172,17 @@ const Register = () => {
           disabled={loading}
           style={{
             width: '100%',
-            padding: 12,
+            padding: 14,
             fontSize: 18,
-            fontWeight: '600',
-            backgroundColor: loading ? '#999' : '#1a73e8',
+            fontWeight: '700',
+            background: loading ? '#999' : 'linear-gradient(90deg, #e74c3c 60%, #1a73e8 100%)',
             color: 'white',
             border: 'none',
-            borderRadius: 6,
+            borderRadius: 8,
             cursor: loading ? 'not-allowed' : 'pointer',
-            transition: 'background-color 0.3s',
+            boxShadow: '0 2px 8px #1a73e822',
+            transition: 'background 0.3s',
+            marginTop: 10,
           }}
           onMouseEnter={e => {
             if (!loading) e.currentTarget.style.backgroundColor = '#155ab6';

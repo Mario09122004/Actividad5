@@ -86,7 +86,6 @@ function AlumnosAgregar() {
         }
     }
 
-
     const handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
         let { name, value } = event.target;
         setAlumno({...alumono, [name]: value });
@@ -120,181 +119,489 @@ function AlumnosAgregar() {
 
     return (
         <Container fluid>
-            <Form onSubmit={ handleSubmit }>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Matricula" className="mb-3">
-                            <Form.Control type="text" placeholder="matricula" onChange={ handleInputChange } value={ matricula } name="matricula" />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Nombre" className="mb-3">
-                            <Form.Control type="text" placeholder="Ingresa tu nombre" onChange={ handleInputChange } name="nombre" value={ nombre } required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Apellido Paterno" className="mb-3">
-                            <Form.Control type="text" placeholder="Apellido Paterno" onChange={ handleInputChange } value={ APaterno } name="APaterno" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Apellido Materno" className="mb-3">
-                            <Form.Control type="text" placeholder="Apellido Materno" onChange={ handleInputChange } value={ MPaterno} name="MPaterno" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Sexo" className="mb-3">
-                            <Form.Select name="sexo" value={ sexo } onChange={ handleSelectChange } required>
-                                <option value="">Selecciona una opción</option>
-                                <option value="1">Masculino</option>
-                                <option value="2">Femenino</option>
-                            </Form.Select>
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Telefono" className="mb-3" onChange={ handleInputChange }>
-                            <Form.Control type="text" value={ Telefono }
-                            placeholder="Telefono de ejemplo: (618) 166 7980" name="Telefono"
-                            required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="CorreoElectrnico" onChange={ handleInputChange } className="mb-3">
-                            <Form.Control type="text" placeholder="Correo Electrnico" value={ CorreoElectrnico } name="CorreoElectrnico" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="PerfilFacebook" onChange={ handleInputChange } className="mb-3">
-                            <Form.Control type="text" value={ PerfilFacebook } placeholder="PerfilFacebook" name="PerfilFacebook" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Instagram" onChange={ handleInputChange } className="mb-3">
-                            <Form.Control type="text" placeholder="Instagram" value={ Instagram } name="Instagram" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="TipoSangre" onChange={ handleInputChange } className="mb-3">
-                            <Form.Control type="text" placeholder="TipoSangre" name="TipoSangre" value={ TipoSangre } required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Contraseña" onChange={ handleInputChange } className="mb-3">
-                            <Form.Control type="password" placeholder="Contraseña" name="Contraseña" value={ Contraseña } required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3 text-center">
-                    <Col>
-                        Dirección
-                    </Col>
-                </Row>
-
-                <Row className="mt-3 mb-3">
-                    <Col>
-                        &nbsp;
-                    </Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Calle" className="mb-3">
-                            <Form.Control type="text" placeholder="Calle" onChange={ handleInputChange } name="dCalle" value={ dCalle } required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Numero" className="mb-3">
-                            <Form.Control type="number" placeholder="Numero" onChange={ handleInputChange } name="Numero" value={ Numero } required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="Colonia" className="mb-3">
-                            <Form.Control type="text" placeholder="Colonia" onChange={ handleInputChange } value={ Colonia } name="Colonia" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="CodigoPostal" className="mb-3">
-                            <Form.Control type="number" placeholder="CodigoPostal" onChange={ handleInputChange } value={ CodigoPostal } name="CodigoPostal" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-
-                <Row className="mt-3 text-center">
-                    <Col>
-                    Contacto
-                    </Col>
-                </Row>
-
-                <Row className="mt-3">
-                    <Col>{"\u00A0"}</Col>
-                    <Col>
-                        <FloatingLabel label="dNombreContacto" className="mb-3">
-                            <Form.Control type="text" placeholder="dNombreContacto" onChange={ handleInputChange } value={ dNombreContacto } name="dNombreContacto" required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <FloatingLabel label="Telefono del contacto" className="mb-3">
-                            <Form.Control type="text" value={ TelefonoContacto }
-                            onChange={ handleInputChange }
-                            placeholder="Telefono de ejemplo: (618) 166 7980" name="TelefonoContacto"
-                            required />
-                        </FloatingLabel>
-                    </Col>
-                    <Col>{"\u00A0"}</Col>
-                </Row>
-                
-                <Row className="mt-3">
-                    <Col>
-                        &nbsp;
-                    </Col>
-                    <Col>
-                        <Button type="submit" className="btn btn-primary">Guardar</Button>
-                    </Col>
-                    <Col>
-                        <Button className="btn btn-info" onClick={ handleCancelar }>Cancelar</Button>
-                    </Col>
-                    <Col>
-                        &nbsp;
-                    </Col>
-                </Row>
-            </Form>
-
+            <div
+                style={{
+                    maxWidth: 900,
+                    margin: "40px auto",
+                    padding: 32,
+                    background: "linear-gradient(135deg, #fff 80%, #e74c3c11 100%)",
+                    borderRadius: 16,
+                    boxShadow: "0 8px 32px rgba(44,62,80,0.12)",
+                    border: "1.5px solid #1a73e8",
+                    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                }}
+            >
+                <h2 style={{
+                    marginBottom: 25,
+                    color: "#1a73e8",
+                    fontWeight: 700,
+                    textAlign: "center",
+                    letterSpacing: 1
+                }}>
+                    Registrar Alumno
+                </h2>
+                <Form onSubmit={ handleSubmit }>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Matricula" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="matricula"
+                                    onChange={ handleInputChange }
+                                    value={ matricula }
+                                    name="matricula"
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="Nombre" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Ingresa tu nombre"
+                                    onChange={ handleInputChange }
+                                    name="nombre"
+                                    value={ nombre }
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Apellido Paterno" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Apellido Paterno"
+                                    onChange={ handleInputChange }
+                                    value={ APaterno }
+                                    name="APaterno"
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="Apellido Materno" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Apellido Materno"
+                                    onChange={ handleInputChange }
+                                    value={ MPaterno}
+                                    name="MPaterno"
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Sexo" className="mb-3">
+                                <Form.Select
+                                    name="sexo"
+                                    value={ sexo }
+                                    onChange={ handleSelectChange }
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                >
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="1">Masculino</option>
+                                    <option value="2">Femenino</option>
+                                </Form.Select>
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="Telefono" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    value={ Telefono }
+                                    placeholder="Telefono de ejemplo: (618) 166 7980"
+                                    name="Telefono"
+                                    required
+                                    onChange={ handleInputChange }
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="CorreoElectrnico" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Correo Electrnico"
+                                    value={ CorreoElectrnico }
+                                    name="CorreoElectrnico"
+                                    required
+                                    onChange={ handleInputChange }
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="PerfilFacebook" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    value={ PerfilFacebook }
+                                    placeholder="PerfilFacebook"
+                                    name="PerfilFacebook"
+                                    required
+                                    onChange={ handleInputChange }
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Instagram" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Instagram"
+                                    value={ Instagram }
+                                    name="Instagram"
+                                    required
+                                    onChange={ handleInputChange }
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="TipoSangre" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="TipoSangre"
+                                    name="TipoSangre"
+                                    value={ TipoSangre }
+                                    required
+                                    onChange={ handleInputChange }
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Contraseña" className="mb-3">
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Contraseña"
+                                    name="Contraseña"
+                                    value={ Contraseña }
+                                    required
+                                    onChange={ handleInputChange }
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3 text-center">
+                        <Col>
+                            <span style={{ color: "#e74c3c", fontWeight: 600, fontSize: 18 }}>Dirección</span>
+                        </Col>
+                    </Row>
+                    <Row className="mt-3 mb-3">
+                        <Col>
+                            &nbsp;
+                        </Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Calle" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Calle"
+                                    onChange={ handleInputChange }
+                                    name="dCalle"
+                                    value={ dCalle }
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="Numero" className="mb-3">
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Numero"
+                                    onChange={ handleInputChange }
+                                    name="Numero"
+                                    value={ Numero }
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="Colonia" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Colonia"
+                                    onChange={ handleInputChange }
+                                    value={ Colonia }
+                                    name="Colonia"
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="CodigoPostal" className="mb-3">
+                                <Form.Control
+                                    type="number"
+                                    placeholder="CodigoPostal"
+                                    onChange={ handleInputChange }
+                                    value={ CodigoPostal }
+                                    name="CodigoPostal"
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3 text-center">
+                        <Col>
+                            <span style={{ color: "#e74c3c", fontWeight: 600, fontSize: 18 }}>Contacto</span>
+                        </Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>{"\u00A0"}</Col>
+                        <Col>
+                            <FloatingLabel label="dNombreContacto" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    placeholder="dNombreContacto"
+                                    onChange={ handleInputChange }
+                                    value={ dNombreContacto }
+                                    name="dNombreContacto"
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>
+                            <FloatingLabel label="Telefono del contacto" className="mb-3">
+                                <Form.Control
+                                    type="text"
+                                    value={ TelefonoContacto }
+                                    onChange={ handleInputChange }
+                                    placeholder="Telefono de ejemplo: (618) 166 7980"
+                                    name="TelefonoContacto"
+                                    required
+                                    style={{
+                                        padding: 12,
+                                        borderRadius: 8,
+                                        border: "1.5px solid #e74c3c",
+                                        marginBottom: 8,
+                                        fontSize: 16,
+                                        outline: "none",
+                                        background: "#fff"
+                                    }}
+                                />
+                            </FloatingLabel>
+                        </Col>
+                        <Col>{"\u00A0"}</Col>
+                    </Row>
+                    <Row className="mt-3">
+                        <Col>
+                            &nbsp;
+                        </Col>
+                        <Col>
+                            <Button
+                                type="submit"
+                                style={{
+                                    width: "100%",
+                                    padding: 14,
+                                    fontSize: 18,
+                                    fontWeight: "700",
+                                    background: "linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)",
+                                    color: "white",
+                                    border: "none",
+                                    borderRadius: 8,
+                                    cursor: "pointer",
+                                    boxShadow: "0 2px 8px #e74c3c22",
+                                    transition: "background 0.3s",
+                                    marginTop: 10,
+                                }}
+                            >
+                                Guardar
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                style={{
+                                    width: "100%",
+                                    padding: 14,
+                                    fontSize: 18,
+                                    fontWeight: "700",
+                                    background: "#fff",
+                                    color: "#e74c3c",
+                                    border: "1.5px solid #e74c3c",
+                                    borderRadius: 8,
+                                    cursor: "pointer",
+                                    boxShadow: "0 2px 8px #e74c3c22",
+                                    transition: "background 0.3s, color 0.3s",
+                                    marginTop: 10,
+                                }}
+                                onClick={ handleCancelar }
+                            >
+                                Cancelar
+                            </Button>
+                        </Col>
+                        <Col>
+                            &nbsp;
+                        </Col>
+                    </Row>
+                </Form>
+            </div>
         </Container>
     );
 }

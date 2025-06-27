@@ -73,65 +73,72 @@ const Mensajes: React.FC = () => {
     );
   };
 
-    const handleEnviar = async (e: React.FormEvent) => {
+  const handleEnviar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) return;
     if (destinatariosIds.length === 0 || !contenido.trim()) {
-        setError('Selecciona al menos un destinatario y escribe un mensaje.');
-        return;
+      setError('Selecciona al menos un destinatario y escribe un mensaje.');
+      return;
     }
     setError('');
     try {
-        const res = await fetch('http://localhost:5000/api/mensajes', {
+      const res = await fetch('http://localhost:5000/api/mensajes', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ destinatarios: destinatariosIds, contenido }),
-        });
-        if (!res.ok) throw new Error('Error enviando mensaje');
+      });
+      if (!res.ok) throw new Error('Error enviando mensaje');
 
-        setContenido('');
-        setDestinatariosIds([]);
-        cargarMensajes();
+      setContenido('');
+      setDestinatariosIds([]);
+      cargarMensajes();
     } catch (e: any) {
-        setError(e.message);
+      setError(e.message);
     }
-    };
+  };
 
   return (
     <div style={{
-      maxWidth: 650,
+      maxWidth: 700,
       margin: '40px auto',
-      padding: 20,
+      padding: 32,
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      backgroundColor: '#fefefe',
-      borderRadius: 8,
-      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+      background: "linear-gradient(135deg, #fff 80%, #e74c3c11 100%)",
+      borderRadius: 16,
+      boxShadow: '0 8px 32px rgba(44,62,80,0.12)',
+      border: "1.5px solid #1a73e8",
       color: '#333',
     }}>
-      <h2 style={{ marginBottom: 25, color: '#1a73e8' }}>Mensajes</h2>
+      <h2 style={{
+        marginBottom: 25,
+        color: '#1a73e8',
+        fontWeight: 700,
+        textAlign: "center",
+        letterSpacing: 1
+      }}>Mensajes</h2>
 
       <form onSubmit={handleEnviar}>
         <fieldset style={{
-          border: '1px solid #ccc',
-          borderRadius: 8,
-          padding: 15,
-          marginBottom: 20,
-          backgroundColor: '#fafafa'
+          border: '1.5px solid #e74c3c',
+          borderRadius: 12,
+          padding: 18,
+          marginBottom: 24,
+          background: '#fff'
         }}>
-          <legend style={{ fontWeight: 'bold', marginBottom: 12 }}>Selecciona destinatarios:</legend>
+          <legend style={{ fontWeight: 'bold', marginBottom: 12, color: "#e74c3c" }}>Selecciona destinatarios:</legend>
 
           <div
             style={{
-              border: '1px solid #ddd',
-              borderRadius: 6,
+              border: '1.5px solid #1a73e8',
+              borderRadius: 8,
               maxHeight: 140,
               overflowY: 'auto',
               padding: 12,
               marginBottom: 12,
-              backgroundColor: '#fff',
+              background: '#f9f9f9',
             }}
           >
             {loadingUsuarios ? (
@@ -153,9 +160,9 @@ const Mensajes: React.FC = () => {
                     type="checkbox"
                     checked={destinatariosIds.includes(u._id)}
                     onChange={() => toggleDestinatario(u._id)}
-                    style={{ marginRight: 8, cursor: 'pointer' }}
+                    style={{ marginRight: 8, cursor: 'pointer', accentColor: "#e74c3c" }}
                   />
-                  <span style={{ fontWeight: '600' }}>{u.nombre}</span> ({u.email})
+                  <span style={{ fontWeight: '600', color: "#1a73e8" }}>{u.nombre}</span> <span style={{ color: "#888" }}>({u.email})</span>
                 </label>
               ))
             )}
@@ -170,38 +177,40 @@ const Mensajes: React.FC = () => {
               width: '100%',
               height: 90,
               padding: 12,
-              borderRadius: 6,
-              border: '1px solid #ccc',
+              borderRadius: 8,
+              border: '1.5px solid #e74c3c',
               fontSize: 16,
               resize: 'vertical',
-              outlineColor: '#1a73e8',
+              outline: "none",
               transition: 'border-color 0.3s',
+              background: "#fff"
             }}
             onFocus={e => (e.currentTarget.style.borderColor = '#1a73e8')}
-            onBlur={e => (e.currentTarget.style.borderColor = '#ccc')}
+            onBlur={e => (e.currentTarget.style.borderColor = '#e74c3c')}
           />
           <button
             type="submit"
             disabled={loadingUsuarios || loadingMensajes}
             style={{
-              marginTop: 12,
-              padding: '12px 0',
+              marginTop: 16,
+              padding: '14px 0',
               width: '100%',
-              backgroundColor: '#1a73e8',
+              background: "linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)",
               color: 'white',
-              fontWeight: '600',
+              fontWeight: '700',
               fontSize: 18,
               border: 'none',
-              borderRadius: 6,
+              borderRadius: 8,
               cursor: loadingUsuarios || loadingMensajes ? 'not-allowed' : 'pointer',
               opacity: loadingUsuarios || loadingMensajes ? 0.6 : 1,
-              transition: 'background-color 0.3s',
+              boxShadow: "0 2px 8px #e74c3c22",
+              transition: 'background 0.3s',
             }}
             onMouseEnter={e => {
-              if (!loadingUsuarios && !loadingMensajes) e.currentTarget.style.backgroundColor = '#155ab6';
+              if (!loadingUsuarios && !loadingMensajes) e.currentTarget.style.background = '#c0392b';
             }}
             onMouseLeave={e => {
-              if (!loadingUsuarios && !loadingMensajes) e.currentTarget.style.backgroundColor = '#1a73e8';
+              if (!loadingUsuarios && !loadingMensajes) e.currentTarget.style.background = 'linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)';
             }}
           >
             Enviar
@@ -209,12 +218,18 @@ const Mensajes: React.FC = () => {
         </fieldset>
       </form>
 
-      {error && <p style={{ color: 'red', marginTop: 10, fontWeight: '600' }}>{error}</p>}
+      {error && <p style={{ color: '#e74c3c', marginTop: 10, fontWeight: '600' }}>{error}</p>}
 
       {loadingMensajes ? (
         <p style={{ color: '#666', fontSize: 18 }}>Cargando mensajes...</p>
       ) : (
-        <ul style={{ marginTop: 20, maxHeight: 300, overflowY: 'auto', paddingLeft: 0, listStyle: 'none' }}>
+        <ul style={{
+          marginTop: 20,
+          maxHeight: 300,
+          overflowY: 'auto',
+          paddingLeft: 0,
+          listStyle: 'none'
+        }}>
           {mensajes.length === 0 ? (
             <li style={{ textAlign: 'center', color: '#777' }}>No hay mensajes para mostrar.</li>
           ) : (
@@ -223,17 +238,17 @@ const Mensajes: React.FC = () => {
                 key={m._id}
                 style={{
                   marginBottom: 20,
-                  padding: 12,
-                  borderRadius: 8,
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
-                  backgroundColor: '#fafafa',
-                  border: '1px solid #ddd',
+                  padding: 16,
+                  borderRadius: 12,
+                  boxShadow: '0 1px 8px rgba(44,62,80,0.10)',
+                  background: "#fff",
+                  border: '1.5px solid #1a73e8',
                   fontSize: 15,
-                  lineHeight: 1.4,
+                  lineHeight: 1.5,
                 }}
               >
                 <b>De:</b> <span style={{ color: '#1a73e8' }}>{m.remitente.nombre}</span> (<i>{m.remitente.email}</i>)<br />
-                <b>Para:</b> <span style={{ color: '#1a73e8' }}>{m.destinatario.nombre}</span> (<i>{m.destinatario.email}</i>)<br />
+                <b>Para:</b> <span style={{ color: '#e74c3c' }}>{m.destinatario.nombre}</span> (<i>{m.destinatario.email}</i>)<br />
                 <b>Mensaje:</b> {m.contenido} <br />
                 <small style={{ color: '#555' }}>{new Date(m.createdAt).toLocaleString()}</small>
               </li>

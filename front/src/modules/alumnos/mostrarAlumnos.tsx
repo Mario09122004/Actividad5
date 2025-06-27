@@ -31,7 +31,6 @@ function AlumnosConsultar() {
   const alumnoConsultar = async (matricula) => {
     try {
       const response = await axios.get(`http://localhost:5000/alumnos/${matricula}`);
-      console.log("Respuesta de la consulta:", response.data);
       if (response.data && (response.data.result || response.data.results)) {
         const alumno = response.data.result || response.data.results[0];
         setAlumnoSeleccionado(alumno);
@@ -75,10 +74,29 @@ function AlumnosConsultar() {
   };
 
   return (
-    <div>
-      <h1>Consultar Alumnos</h1>
+    <div
+      style={{
+        maxWidth: 1100,
+        margin: "40px auto",
+        padding: 32,
+        background: "linear-gradient(135deg, #fff 80%, #e74c3c11 100%)",
+        borderRadius: 16,
+        boxShadow: "0 8px 32px rgba(44,62,80,0.12)",
+        border: "1.5px solid #1a73e8",
+        fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+      }}
+    >
+      <h2 style={{
+        color: "#1a73e8",
+        marginBottom: 24,
+        fontWeight: 700,
+        textAlign: "center",
+        letterSpacing: 1
+      }}>
+        Consultar Alumnos
+      </h2>
       {cargando ? (
-        <p>Cargando...</p>
+        <p style={{ textAlign: "center", color: "#e74c3c", fontWeight: 600 }}>Cargando...</p>
       ) : (
         <div style={{ overflowX: "auto" }}>
           <Row className="mb-3">
@@ -89,13 +107,46 @@ function AlumnosConsultar() {
                   aria-label="Buscar"
                   value={buscar}
                   onChange={handleInputChange}
+                  style={{
+                    padding: 12,
+                    borderRadius: 8,
+                    border: "1.5px solid #e74c3c",
+                    fontSize: 16,
+                    outline: "none",
+                    background: "#fff"
+                  }}
                 />
-                <Button variant="outline-secondary" onClick={handleBuscar}>Buscar</Button>
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleBuscar}
+                  style={{
+                    border: "1.5px solid #1a73e8",
+                    color: "#1a73e8",
+                    fontWeight: 600,
+                    borderRadius: 8,
+                    marginLeft: 8,
+                    transition: "background 0.2s, color 0.2s"
+                  }}
+                >
+                  Buscar
+                </Button>
               </InputGroup>
             </Col>
           </Row>
-          <Table striped bordered hover responsive>
-            <thead>
+          <Table
+            striped
+            bordered
+            hover
+            responsive
+            style={{
+              borderRadius: 12,
+              overflow: "hidden",
+              border: "1.5px solid #1a73e8",
+              boxShadow: "0 2px 12px rgba(231,76,60,0.08)",
+              background: "#fff"
+            }}
+          >
+            <thead style={{ background: "linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)", color: "#fff" }}>
               <tr>
                 <th>#</th>
                 <th>Matrícula</th>
@@ -119,14 +170,29 @@ function AlumnosConsultar() {
                     <td>{alumno.nombreContacto}</td>
                     <td>{alumno.telefonoContacto}</td>
                     <td>
-                      <Button variant="primary" onClick={() => alumnoConsultar(alumno.matricula)}>
+                      <Button
+                        variant="primary"
+                        onClick={() => alumnoConsultar(alumno.matricula)}
+                        style={{
+                          background: "linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)",
+                          border: "none",
+                          borderRadius: 8,
+                          fontWeight: 600,
+                          boxShadow: "0 2px 8px #e74c3c22",
+                          transition: "background 0.3s"
+                        }}
+                      >
                         Consultar
                       </Button>
                     </td>
                   </tr>
                 ))
               ) : (
-                <tr><td colSpan="8">No se encontraron alumnos</td></tr>
+                <tr>
+                  <td colSpan="8" style={{ textAlign: "center", color: "#e74c3c", fontWeight: 600 }}>
+                    No se encontraron alumnos
+                  </td>
+                </tr>
               )}
             </tbody>
           </Table>
@@ -135,7 +201,7 @@ function AlumnosConsultar() {
 
       {/* Modal */}
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton style={{ background: "#1a73e8", color: "#fff" }}>
           <Modal.Title>
             {alumnoSeleccionado ? `Matrícula: ${alumnoSeleccionado.matricula}` : ''}
           </Modal.Title>
@@ -162,7 +228,18 @@ function AlumnosConsultar() {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button
+            variant="secondary"
+            onClick={handleCloseModal}
+            style={{
+              background: "#fff",
+              color: "#e74c3c",
+              border: "1.5px solid #e74c3c",
+              borderRadius: 8,
+              fontWeight: 600,
+              transition: "background 0.2s, color 0.2s"
+            }}
+          >
             Cerrar
           </Button>
         </Modal.Footer>

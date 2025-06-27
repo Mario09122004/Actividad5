@@ -76,21 +76,30 @@ const Login = () => {
 
   return (
     <div style={{
-        maxWidth: 400,
+        maxWidth: 420,
         margin: 'auto',
-        padding: 20,
+        padding: 32,
         fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-        borderRadius: 8,
-        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 6px 20px',
-        backgroundColor: '#fff',
-        color: '#333',
-        height: 'calc(100vh - 120px)',  // 120px para el margin vertical
+        borderRadius: 14,
+        boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+        background: 'linear-gradient(135deg, #fff 70%, #e74c3c22 100%)',
+        color: '#222',
+        border: '1.5px solid #e74c3c',
+        height: 'calc(100vh - 120px)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     }}>
-      <h2 style={{ marginBottom: 25, textAlign: 'center', color: '#1a73e8' }}>Iniciar Sesión</h2>
+      <h2 style={{
+        marginBottom: 28,
+        textAlign: 'center',
+        color: '#e74c3c',
+        fontWeight: 700,
+        letterSpacing: 1,
+        fontSize: 28,
+        textShadow: '0 2px 8px #e74c3c22'
+      }}>Iniciar Sesión</h2>
       <form onSubmit={formik.handleSubmit}>
         <input
           type="email"
@@ -159,15 +168,17 @@ const Login = () => {
           disabled={loading}
           style={{
             width: '100%',
-            padding: 12,
+            padding: 14,
             fontSize: 18,
-            fontWeight: '600',
-            backgroundColor: loading ? '#999' : '#1a73e8',
+            fontWeight: '700',
+            background: loading ? '#999' : 'linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)',
             color: 'white',
             border: 'none',
-            borderRadius: 6,
+            borderRadius: 8,
             cursor: loading ? 'not-allowed' : 'pointer',
-            transition: 'background-color 0.3s',
+            boxShadow: '0 2px 8px #e74c3c22',
+            transition: 'background 0.3s',
+            marginTop: 10,
           }}
           onMouseEnter={e => {
             if (!loading) e.currentTarget.style.backgroundColor = '#155ab6';

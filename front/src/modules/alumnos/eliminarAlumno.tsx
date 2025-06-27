@@ -64,37 +64,119 @@ function AlumnoEliminar() {
 
     return (
         <Container fluid>
-            <h1>Eliminar Alumno</h1>
-            <Form onSubmit={buscarAlumno}>
-                <FloatingLabel label="Matrícula" className="mb-3">
-                    <Form.Control type="text" placeholder="Matrícula" value={matricula} onChange={handleInputChange} />
-                </FloatingLabel>
-                <Button variant="primary" type="submit">Buscar</Button>
-            </Form>
+            <div
+                style={{
+                    maxWidth: 700,
+                    margin: "40px auto",
+                    padding: 32,
+                    background: "linear-gradient(135deg, #fff 80%, #e74c3c11 100%)",
+                    borderRadius: 16,
+                    boxShadow: "0 8px 32px rgba(44,62,80,0.12)",
+                    border: "1.5px solid #1a73e8",
+                    fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                }}
+            >
+                <h2 style={{
+                    color: "#e74c3c",
+                    marginBottom: 24,
+                    fontWeight: 700,
+                    textAlign: "center",
+                    letterSpacing: 1
+                }}>Eliminar Alumno</h2>
+                <Form onSubmit={buscarAlumno}>
+                    <FloatingLabel label="Matrícula" className="mb-3">
+                        <Form.Control
+                            type="text"
+                            placeholder="Matrícula"
+                            value={matricula}
+                            onChange={handleInputChange}
+                            style={{
+                                padding: 12,
+                                borderRadius: 8,
+                                border: "1.5px solid #e74c3c",
+                                fontSize: 16,
+                                outline: "none",
+                                background: "#fff"
+                            }}
+                        />
+                    </FloatingLabel>
+                    <Button
+                        type="submit"
+                        style={{
+                            width: "100%",
+                            padding: 14,
+                            fontSize: 18,
+                            fontWeight: "700",
+                            background: "linear-gradient(90deg, #1a73e8 60%, #e74c3c 100%)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: 8,
+                            cursor: "pointer",
+                            boxShadow: "0 2px 8px #e74c3c22",
+                            transition: "background 0.3s",
+                            marginBottom: 10
+                        }}
+                    >
+                        Buscar
+                    </Button>
+                </Form>
 
-            {alumno && (
-                <Card className="mt-4">
-                    <Card.Body>
-                        <Card.Title>Alumno Encontrado</Card.Title>
-                        <Row>
-                            <Col><strong>Nombre:</strong> {`${alumno.nombre} ${alumno.aPaterno} ${alumno.aMaterno}`}</Col>
-                        </Row>
-                        <Row>
-                            <Col><strong>Teléfono:</strong> {alumno.aTelefono}</Col>
-                            <Col><strong>Correo:</strong> {alumno.aCorreo}</Col>
-                        </Row>
-                        <Row>
-                            <Col><strong>Nombre Contacto:</strong> {alumno.nombreContacto}</Col>
-                            <Col><strong>Tel. Contacto:</strong> {alumno.telefonoContacto}</Col>
-                        </Row>
+                {alumno && (
+                    <Card className="mt-4" style={{
+                        borderRadius: 14,
+                        border: "1.5px solid #e74c3c",
+                        boxShadow: "0 2px 8px #e74c3c22",
+                        background: "#fff"
+                    }}>
+                        <Card.Body>
+                            <Card.Title style={{ color: "#1a73e8", fontWeight: 700 }}>Alumno Encontrado</Card.Title>
+                            <Row>
+                                <Col><strong>Nombre:</strong> {`${alumno.nombre} ${alumno.aPaterno} ${alumno.aMaterno}`}</Col>
+                            </Row>
+                            <Row>
+                                <Col><strong>Teléfono:</strong> {alumno.aTelefono}</Col>
+                                <Col><strong>Correo:</strong> {alumno.aCorreo}</Col>
+                            </Row>
+                            <Row>
+                                <Col><strong>Nombre Contacto:</strong> {alumno.nombreContacto}</Col>
+                                <Col><strong>Tel. Contacto:</strong> {alumno.telefonoContacto}</Col>
+                            </Row>
 
-                        <div className="mt-3 d-flex justify-content-end">
-                            <Button variant="danger" className="me-2" onClick={eliminarAlumno}>Eliminar</Button>
-                            <Button variant="secondary" onClick={cancelar}>Cancelar</Button>
-                        </div>
-                    </Card.Body>
-                </Card>
-            )}
+                            <div className="mt-3 d-flex justify-content-end">
+                                <Button
+                                    style={{
+                                        background: "linear-gradient(90deg, #e74c3c 60%, #1a73e8 100%)",
+                                        color: "white",
+                                        border: "none",
+                                        borderRadius: 8,
+                                        fontWeight: "bold",
+                                        boxShadow: "0 2px 8px #e74c3c22",
+                                        marginRight: 8,
+                                        transition: "background 0.3s"
+                                    }}
+                                    onClick={eliminarAlumno}
+                                >
+                                    Eliminar
+                                </Button>
+                                <Button
+                                    style={{
+                                        background: "#fff",
+                                        color: "#e74c3c",
+                                        border: "1.5px solid #e74c3c",
+                                        borderRadius: 8,
+                                        fontWeight: "bold",
+                                        boxShadow: "0 2px 8px #e74c3c22",
+                                        transition: "background 0.3s, color 0.3s"
+                                    }}
+                                    onClick={cancelar}
+                                >
+                                    Cancelar
+                                </Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                )}
+            </div>
         </Container>
     );
 }
