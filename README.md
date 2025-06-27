@@ -1,5 +1,3 @@
-# README
-
 ## Sistema de Gestión de Alumnos
 
 Aplicación web para la gestión de alumnos, mensajes y administración, desarrollada con **React + TypeScript + Vite** en el frontend y **Node.js/Express** en el backend.
@@ -62,18 +60,6 @@ npm run dev
 El frontend se ejecutará en [http://localhost:3000](http://localhost:3000)
 
 ---
-
-## Variables de entorno
-
-### Backend
-
-Crea un archivo `.env` en la carpeta `back` con el siguiente contenido (ajusta según tu configuración):
-
-```
-MONGO_URI=mongodb://localhost:27017/actividad5
-JWT_SECRET=tu_clave_secreta
-PORT=5000
-```
 
 ### Frontend
 
