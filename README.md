@@ -22,3 +22,13 @@ Asegúrate de tener instalado lo siguiente en tu sistema:
 
    ```bash
    cd back
+   
+2. Instala las dependencias necesarias:
+
+   ```bash
+   npm install
+   
+3. Inicia el servidor:
+
+   ```bash
+   npm install
